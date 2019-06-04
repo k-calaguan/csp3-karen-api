@@ -29,7 +29,8 @@ router.post('/register', (req, res) => {
 		}
 
 		if (user.length > 0) {
-			return res.status(500).json({
+			// Throw Conflict error
+			return res.status(409).json({
 				"error": "Email address already registered"
 			});
 		}
@@ -43,7 +44,8 @@ router.post('/register', (req, res) => {
 			}
 
 			if (user.length > 0) {
-				return res.status(500).json({
+				// Throw Conflict error
+				return res.status(409).json({
 					"error": "Phone number already registered"
 				});
 			}
@@ -62,12 +64,13 @@ router.post('/register', (req, res) => {
 
 					newUser.save((err) => {
 						if (!err) {
-							return res.json({
+							return res.status(201).json({
 								"message": "Successfully registered",
 								"data": newUser.email
 							})
 						} else {
-							return res.json({
+							//Throw Request Timed Out error
+							return res.status(408).json({
 								"message": "Unable to save new user",
 								"error": err
 							})
@@ -76,6 +79,15 @@ router.post('/register', (req, res) => {
 				})
 			})
 		})
+		.catch(next)
+	})
+	.catch(next)
+});
+
+/* Error Handling Middleware */
+router.use((err, req, res, next) => {
+	res.status(422).send({
+		error: err.message
 	})
 });
 
