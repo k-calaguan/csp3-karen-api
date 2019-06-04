@@ -16,7 +16,7 @@ router.post('/login', (req, res, next) => {
 		if (!user) {
 			// Throw Bad Request error
 			return res.status(400).json({
-				"error": "Authentication failed. Incorrect email address or password."
+				"error": "Incorrect email address or password."
 			});
 		}
 
