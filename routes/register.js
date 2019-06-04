@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 const UserModel = require('../models/User');
 
 
-router.post('/register', (req, res) => {
+router.post('/register', (req, res, next) => {
 	let name = req.body.name;
 	let email = req.body.email;
 	let password = req.body.password;
@@ -87,7 +87,7 @@ router.post('/register', (req, res) => {
 /* Error Handling Middleware */
 router.use((err, req, res, next) => {
 	res.status(422).send({
-		error: err.message
+		"error": err.message
 	})
 });
 
