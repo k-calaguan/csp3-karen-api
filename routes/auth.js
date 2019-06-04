@@ -6,9 +6,17 @@ const appPassport = require('../passport');
 
 router.post('/login', (req, res, next) => {
 	passport.authenticate('local', {session:false}, (err, user, info) => {
-		if (err || !user) {
+		if (err) {
+			// Throw Bad Request error
 			return res.status(400).json({
-				"error": "Something went wrong"
+				"error": "Something went wrong."
+			});
+		}
+
+		if (!user) {
+			// Throw Bad Request error
+			return res.status(400).json({
+				"error": "Authentication failed. Incorrect email address or password."
 			});
 		}
 
@@ -31,7 +39,7 @@ router.post('/login', (req, res, next) => {
 
 router.get('/logout', (req, res) => {
 	req.logout();
-	res.json({
+	res.status(200).json({
 		"status": "logout",
 		"message": "You have been successfully logged out"
 	})
