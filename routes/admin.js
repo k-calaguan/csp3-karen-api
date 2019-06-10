@@ -153,26 +153,13 @@ router.delete('/cars/:id', (req, res, next) => {
 /* Index */
 router.get('/bookings', (req, res, next) => {
 	BookingModel.find({})
+	.populate('carId')
+	.populate('customerId')
 	.then(bookings => {
-		async.forEach(bookings, booking => {
-			CarModel.findById(booking.carId)
-			.then(car => {
-				UserModel.findById(booking.customerId)
-				.then(customer => {
-					return res.status(200).json({
-						"booking": booking,
-						"car": car,
-						"customer": customer
-					})
-				})
-				.catch(next)
-			})
-			.catch(next)
-		})
+		return res.status(200).json(bookings)
 	})
 	.catch(next)
 });
-
 
 
 /* Error Handling Middleware */

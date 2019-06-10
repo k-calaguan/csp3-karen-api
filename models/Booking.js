@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 const moment = require('moment');
 
 const BookingSchema = new Schema({
-	customerId: String,
-	carId: String,
+	// customerId: String,
+	customerId: {type: String, ref: 'User'},
+	// carId: String,
+	carId: {type: String, ref: 'Car'},
 	schedDate: {
 		startDate: {
 			type: Date, 

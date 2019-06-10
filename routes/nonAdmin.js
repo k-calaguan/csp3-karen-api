@@ -31,6 +31,7 @@ router.get('/cars/:id', (req, res, next) => {
 /* Index */
 router.get('/bookings', (req, res, next) => {
 	BookingModel.find({customerId: req.user._id})
+	.populate('carId')
 	.then(bookings => {
 		return res.json(bookings);
 	})
@@ -107,7 +108,7 @@ router.post('/bookings', (req, res, next) => {
 							},
 							transactionDate: moment(),
 							totalCharge: totalPrice,
-							transactionType: "booking",
+							transactionType: "Booking",
 							chargeId: charges.id
 						})
 						.then(booking => {
